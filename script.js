@@ -1,8 +1,8 @@
 // Enhanced JavaScript for better interactivity
-const $ = window.jQuery // Declare the $ variable to fix the undeclared variable error
+const $ = window.jQuery // Declare the $ variable
 
 $(document).ready(() => {
-  // Cabin data with enhanced information
+  // Cabin data
   const cabinData = {
     interior: {
       title: "Interior Cabins",
@@ -34,59 +34,41 @@ $(document).ready(() => {
     },
   }
 
-  // Enhanced deck click handler with animations
+  // Deck click handler
   $(".clickable-deck").on("click", function () {
     const deckType = $(this).data("deck")
     const cabin = cabinData[deckType]
 
-    // Add click animation
     $(this).addClass("clicked")
     setTimeout(() => $(this).removeClass("clicked"), 200)
 
-    // Populate modal with cabin information
     $("#modalTitle").text(cabin.title)
 
     const cabinHTML = `
-            <div class="cabin-showcase">
-                <img src="${cabin.image}" alt="${cabin.title}" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
-                <h3 style="color: #1e40af; margin-bottom: 15px;">From $${cabin.price}/night</h3>
-                <p style="margin-bottom: 20px; color: #64748b; font-size: 16px;">${cabin.description}</p>
-                
-                <div class="features-list" style="margin-bottom: 25px;">
-                    <h4 style="color: #1e40af; margin-bottom: 10px;">✨ Features & Amenities:</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        ${cabin.features
-                          .map(
-                            (feature) => `
-                            <li style="padding: 5px 0; color: #475569;">
-                                <span style="color: #10b981; margin-right: 8px;">✓</span>${feature}
-                            </li>
-                        `,
-                          )
-                          .join("")}
-                    </ul>
-                </div>
-                
-                <button onclick="showBookingForm('${deckType}')" 
-                        style="background: linear-gradient(135deg, #10b981, #059669); 
-                               color: white; border: none; padding: 12px 30px; 
-                               border-radius: 8px; font-weight: 600; cursor: pointer;
-                               transition: all 0.3s ease;">
-                    Book This Cabin Type
-                </button>
-            </div>
-        `
-
+      <div class="cabin-showcase">
+        <img src="${cabin.image}" alt="${cabin.title}" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+        <h3 style="color: #1e40af; margin-bottom: 15px;">From $${cabin.price}/night</h3>
+        <p style="margin-bottom: 20px; color: #64748b; font-size: 16px;">${cabin.description}</p>
+        <div class="features-list" style="margin-bottom: 25px;">
+          <h4 style="color: #1e40af; margin-bottom: 10px;">✨ Features & Amenities:</h4>
+          <ul style="list-style: none; padding: 0;">
+            ${cabin.features.map((f) => `<li style="padding: 5px 0; color: #475569;"><span style="color: #10b981; margin-right: 8px;">✓</span>${f}</li>`).join("")}
+          </ul>
+        </div>
+        <button onclick="showBookingForm('${deckType}')" 
+          style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+          Book This Cabin Type
+        </button>
+      </div>
+    `
     $("#cabinOptions").html(cabinHTML)
     $("#bookingForm").hide()
     $("#bookingModal").fadeIn(300)
-
-    // Update price in form
     $("#pricePerNight").text(cabin.price)
     updateTotalPrice()
   })
 
-  // Enhanced booking form functionality
+  // Booking form
   window.showBookingForm = (cabinType) => {
     $("#cabinOptions").slideUp(300)
     setTimeout(() => {
@@ -102,37 +84,27 @@ $(document).ready(() => {
       "14-Day Transatlantic Luxury",
       "5-Day Bahamas Getaway",
     ]
-
     const select = $("#cruiseSelect")
-    cruises.forEach((cruise) => {
-      select.append(`<option value="${cruise}">${cruise}</option>`)
-    })
+    select.empty().append('<option value="">Select Cruise</option>')
+    cruises.forEach((cruise) => select.append(`<option value="${cruise}">${cruise}</option>`))
   }
 
-  // Enhanced price calculation
   function updateTotalPrice() {
-    const pricePerNight = Number.parseInt($("#pricePerNight").text()) || 0
-    const nights = Number.parseInt($("#totalNights").text()) || 7
-    const passengers = Number.parseInt($("#passengers").val()) || 2
-
+    const pricePerNight = parseInt($("#pricePerNight").text()) || 0
+    const nights = parseInt($("#totalNights").text()) || 7
+    const passengers = parseInt($("#passengers").val()) || 2
     const total = pricePerNight * nights * passengers
     $("#totalPrice").text(total.toLocaleString())
     $("#totalPassengers").text(passengers)
   }
 
-  // Real-time price updates
   $("#passengers").on("input", updateTotalPrice)
 
-  // Enhanced form submission
   $("#bookingForm").on("submit", function (e) {
     e.preventDefault()
-
-    // Add loading state
     const submitBtn = $(this).find('button[type="submit"]')
     const originalText = submitBtn.text()
     submitBtn.text("Processing...").prop("disabled", true)
-
-    // Simulate booking process
     setTimeout(() => {
       alert("🎉 Booking confirmed! You will receive a confirmation email shortly.")
       $("#bookingModal").fadeOut(300)
@@ -141,25 +113,32 @@ $(document).ready(() => {
     }, 2000)
   })
 
-  // Enhanced modal close functionality
   $(".close, .modal").on("click", function (e) {
-    if (e.target === this) {
-      $("#bookingModal").fadeOut(300)
-    }
+    if (e.target === this) $("#bookingModal").fadeOut(300)
   })
 
-  // Add CSS for click animation
-  $("<style>")
-    .text(`
-        .clicked {
-            animation: clickPulse 0.2s ease;
-        }
-        
-        @keyframes clickPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-            100% { transform: scale(1.05); }
-        }
-    `)
-    .appendTo("head")
+  // Click animation CSS
+  $("<style>").text(`
+    .clicked { animation: clickPulse 0.2s ease; }
+    @keyframes clickPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1.05); }
+    }
+  `).appendTo("head")
+
+  // ===== Easter Egg: Blow up ship =====
+  $("#bullseye").on("click", () => {
+    const ship = document.querySelector(".cruise-ship")
+    const message = document.getElementById("explosion-message")
+
+    ship.style.transition = "all 0.8s ease"
+    ship.style.transform = "scale(1.5) rotate(20deg)"
+    ship.style.opacity = "0"
+
+    setTimeout(() => {
+      ship.style.display = "none"
+      message.style.display = "block"
+    }, 800)
+  })
 })
