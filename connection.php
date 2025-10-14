@@ -8,3 +8,15 @@ $conn = mysqli_connect($hostname, $username, $password, $dbname) OR die ("Cannot
 error...");
 //echo "Connected to the database ".$dbname." successfully! <br>";
 ?>
+<?php
+$hostname = "localhost";
+$username = "dpierred_derron";
+$password = " IloveGGC123@";
+$database = "dpierred_CruiseLineDataBase";
+
+$conn = mysqli_connect($hostname, $username, $password, $database);
+if (!$conn) {
+  die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully!";
+?>
