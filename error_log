@@ -1,0 +1,20 @@
+[15-Oct-2025 00:10:49 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'wrandazz_CruiseShipDB.users' doesn't exist in /home/wrandazz/public_html/Capstone/login.php:19
+Stack trace:
+#0 /home/wrandazz/public_html/Capstone/login.php(19): mysqli->prepare('SELECT id, firs...')
+#1 {main}
+  thrown in /home/wrandazz/public_html/Capstone/login.php on line 19
+[15-Oct-2025 00:20:20 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'phone' doesn't have a default value in /home/wrandazz/public_html/Capstone/register.php:28
+Stack trace:
+#0 /home/wrandazz/public_html/Capstone/register.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/wrandazz/public_html/Capstone/register.php on line 28
+[15-Oct-2025 00:23:10 UTC] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in /home/wrandazz/public_html/Capstone/register.php:52
+Stack trace:
+#0 /home/wrandazz/public_html/Capstone/register.php(52): mysqli_stmt->bind_param('sss', 'Will', 'Randizzle', 'fght447777@gmai...', 'Haloreach44$')
+#1 {main}
+  thrown in /home/wrandazz/public_html/Capstone/register.php on line 52
+[15-Oct-2025 00:25:26 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect integer value: '' for column 'php' at row 1 in /home/wrandazz/public_html/Capstone/register.php:42
+Stack trace:
+#0 /home/wrandazz/public_html/Capstone/register.php(42): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/wrandazz/public_html/Capstone/register.php on line 42

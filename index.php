@@ -1,3 +1,9 @@
+<?php
+// index.php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
+$name = $_SESSION['firstname'] ?? $_SESSION['email'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,8 +18,13 @@
     <header>
       <h1>🚢 Ocean Cruises</h1>
       <nav>
-        <a href="login.php">Login</a>
-        <a href="register.php">Register</a>
+        <?php if ($isLoggedIn): ?>
+          <span style="font-weight:700;margin-right:12px;">Welcome, <?= htmlspecialchars($name) ?></span>
+          <a href="logout.php">Logout</a>
+        <?php else: ?>
+          <a href="login.php">Login</a>
+          <a href="register.php">Register</a>
+        <?php endif; ?>
       </nav>
     </header>
 
@@ -112,7 +123,7 @@
 
       <!-- Explosion effect -->
       <div id="explosion" style="display:none; text-align:center; margin-top:20px;">
-        <div id="explosion-icon" style="font-size:60px;">💥</div>
+        <div id="explosion-icon" style="font-size:60px;">🔥</div>
         <div id="explosion-message" style="margin-top:10px; font-size:22px; font-weight:bold; color:darkred;">
           I guess you will stay on the land, land lubber!
         </div>
