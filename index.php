@@ -21,9 +21,9 @@ $name = $_SESSION['firstname'] ?? $_SESSION['email'] ?? '';
         <?php if ($isLoggedIn): ?>
           <span style="font-weight:700;margin-right:12px;">Welcome, <?= htmlspecialchars($name) ?></span>
           <a href="logout.php">Logout</a>
+        <a href="profile.php">Profile Page</a>
         <?php else: ?>
           <a href="login.php">Login</a>
-          <a href="profile.php">Profile Page</a>
           <a href="register.php">Register</a>
         <?php endif; ?>
       </nav>
