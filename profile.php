@@ -129,5 +129,18 @@ mysqli_close($conn);
     <input type="submit" name="edit" value="CONFIRM EDIT">
 </form>
 
+<div style="text-align:center; margin-top:30px;">
+    <a href="index.php" 
+       style="padding:10px 20px; background:#2563eb; color:white; text-decoration:none; border-radius:6px; margin-right:15px;">
+       ⬅ Go Back
+    </a>
+
+    <a href="brooms.php" 
+       style="padding:10px 20px; background:#10b981; color:white; text-decoration:none; border-radius:6px;">
+       🛏 Your Booked Rooms
+    </a>
+</div>
+
 </body>
 </html>
+
