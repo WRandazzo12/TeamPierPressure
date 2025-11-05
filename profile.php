@@ -1,4 +1,5 @@
 <?php
+//profile.php
 include "connection.php"; // Include database connection
 
 // -------------------------
@@ -143,4 +144,3 @@ mysqli_close($conn);
 
 </body>
 </html>
-
