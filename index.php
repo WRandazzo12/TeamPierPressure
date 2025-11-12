@@ -18,6 +18,7 @@ $name = $_SESSION['firstname'] ?? $_SESSION['email'] ?? '';
     <header>
       <h1>🚢 Ocean Cruises</h1>
       <nav>
+        <a href="rooms.php">Rooms</a>
         <?php if ($isLoggedIn): ?>
           <span style="font-weight:700;margin-right:12px;">Welcome, <?= htmlspecialchars($name) ?></span>
           <a href="logout.php">Logout</a>
@@ -158,6 +159,10 @@ $name = $_SESSION['firstname'] ?? $_SESSION['email'] ?? '';
     </div>
   </div>
 
+  <script>
+    // Pass login status to JavaScript
+    const isLoggedIn = <?php echo $isLoggedIn ? 'true' : 'false'; ?>;
+  </script>
   <script src="script.js"></script>
 </body>
 </html>

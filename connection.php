@@ -1,12 +1,16 @@
 <?php
-$servername = "localhost";
-$username   = "wrandazz_William";
-$password   = "PierPressure1!";
-$database   = "wrandazz_CruiseShipDB";
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$conn = new mysqli($servername, $username, $password, $database);
+$host     = '127.0.0.1';
+$user     = 'root';
+$pass     = '';
+$database = 'derronpcuriseshipdb';   // <-- COPY EXACT NAME FROM PHPMYADMIN
+$port     = 3306;                    // XAMPP shows MySQL on 3306
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+  $conn = new mysqli($host, $user, $pass, $database, $port);
+  $conn->set_charset('utf8mb4');
+} catch (mysqli_sql_exception $e) {
+  die("❌ Database connection failed: " . $e->getMessage());
 }
 ?>

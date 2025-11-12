@@ -2,35 +2,43 @@
 session_start();
 require_once __DIR__ . '/connection.php';
 
+
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
     if ($email === '' || $password === '') {
         $error = 'Please enter both email and password.';
     } else {
-        $sql = "SELECT id, firstname, lastname, email, pw, user_type FROM users WHERE email = ?";
+        $sql = "SELECT id, first_name, last_name, email, password_hash
+                FROM users
+                WHERE email = ?
+                LIMIT 1";
+
+        // TEMP DEBUG (remove after)
+        echo "<pre>SQL BEING PREPARED:\n{$sql}</pre>";
+
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('s', $email);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
+        $row = $stmt->get_result()->fetch_assoc();
 
-        if ($row && hash_equals($row['pw'], $password)) {
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['firstname'] = $row['firstname'];
-            $_SESSION['email'] = $row['email'];
-            $_SESSION['user_type'] = $row['user_type'];
-            header("Location: index.php");
+        if ($row && password_verify($password, $row['password_hash'])) {
+            $_SESSION['user_id']   = $row['id'];
+            $_SESSION['firstname'] = $row['first_name'];
+            $_SESSION['lastname']  = $row['last_name'];
+            $_SESSION['email']     = $row['email'];
+            header('Location: index.php');
             exit;
         } else {
             $error = 'Invalid email or password.';
         }
     }
-}
+} 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

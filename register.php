@@ -6,18 +6,19 @@ require_once __DIR__ . '/connection.php';
 $error = '';
 $success = '';
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $firstname = trim($_POST['firstname'] ?? '');
-    $lastname  = trim($_POST['lastname'] ?? '');
-    $email     = trim($_POST['email'] ?? '');
-    $password  = $_POST['password'] ?? '';
+    $first  = trim($_POST['firstname'] ?? '');
+    $last   = trim($_POST['lastname'] ?? '');
+    $email  = trim($_POST['email'] ?? '');
+    $pass   = $_POST['password'] ?? '';
 
     // basic validation
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid email address.';
-    } elseif ($firstname === '' || $lastname === '') {
+    } elseif ($first === '' || $last === '') {
         $error = 'Please enter your first and last name.';
-    } elseif ($password === '') {
+    } elseif ($pass === '') {
         $error = 'Please enter a password.';
     } else {
         // check if email already exists
@@ -42,17 +43,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  * - user_type: 1 = normal user (seed uses 0 = admin).
                  * - php is an INT: must be a number or NULL (NOT an empty string). We’ll use NULL.
                  */
-                $stmt = $conn->prepare("
-                    INSERT INTO users (firstname, lastname, phone, email, gender, level, pw, user_type, php)
-                    VALUES (?, ?, '', ?, '', '', ?, 1, NULL)
-                ");
-                if (!$stmt) {
-                    $error = 'Server error (prepare-2).';
-                } else {
-                    // Matching your class schema: pw is stored in plaintext in users-4.sql
-                    // For real apps, use password_hash() instead.
-                    $stmt->bind_param("ssss", $firstname, $lastname, $email, $password);
+                $hash = password_hash($pass, PASSWORD_DEFAULT);
 
+                $stmt = $conn->prepare("
+                INSERT INTO users (first_name, last_name, email, password_hash)
+                VALUES (?, ?, ?, ?)
+            ");
+            if (!$stmt) {
+                $error = 'Server error (prepare-2).';
+            } else {
+                $stmt->bind_param("ssss", $first, $last, $email, $hash);
+            
                     if ($stmt->execute()) {
                         $success = 'Account created! You can now log in.';
                     } else {

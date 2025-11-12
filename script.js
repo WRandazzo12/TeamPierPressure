@@ -36,6 +36,13 @@ $(document).ready(() => {
 
   // Deck click handler
   $(".clickable-deck").on("click", function () {
+    // Check if user is logged in
+    if (typeof isLoggedIn === 'undefined' || !isLoggedIn) {
+      alert("🔒 Please log in to book a room.\n\nYou'll be redirected to the login page.")
+      window.location.href = "login.php"
+      return
+    }
+
     const deckType = $(this).data("deck")
     const cabin = cabinData[deckType]
 
