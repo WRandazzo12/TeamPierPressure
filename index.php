@@ -18,7 +18,6 @@ $name = $_SESSION['firstname'] ?? $_SESSION['email'] ?? '';
     <header>
       <h1>🚢 Ocean Cruises</h1>
       <nav>
-        <a href="rooms.php">Rooms</a>
         <?php if ($isLoggedIn): ?>
           <span style="font-weight:700;margin-right:12px;">Welcome, <?= htmlspecialchars($name) ?></span>
           <a href="logout.php">Logout</a>
@@ -141,12 +140,28 @@ $name = $_SESSION['firstname'] ?? $_SESSION['email'] ?? '';
       <div id="cabinOptions"></div>
       <form id="bookingForm" class="booking-form" style="display: none;">
         <h3>Complete Your Booking</h3>
+        <label for="roomSelect" style="display: block; margin-bottom: 5px; font-weight: 600; color: #1e40af;">Select Room *</label>
+        <select id="roomSelect" required style="margin-bottom: 15px;">
+          <option value="">Loading rooms...</option>
+        </select>
+        <input type="hidden" id="selectedRoomId" name="room_id">
+        <input type="hidden" id="selectedRoomNumber" name="room_number">
+        <input type="hidden" id="selectedRoomType" name="room_type">
+        <input type="hidden" id="selectedPricePerNight" name="price_per_night">
+        <label for="cruiseSelect" style="display: block; margin-bottom: 5px; font-weight: 600; color: #1e40af;">Select Cruise *</label>
         <select id="cruiseSelect" required><option value="">Select Cruise</option></select>
         <input type="number" id="passengers" min="1" max="4" value="2" placeholder="Number of Passengers" required>
+        <input type="number" id="nights" min="1" value="7" placeholder="Number of Nights" required>
         <input type="date" id="departureDate" required>
         <input type="text" id="customerName" placeholder="Full Name" required>
         <input type="email" id="customerEmail" placeholder="Email Address" required>
         <input type="tel" id="customerPhone" placeholder="Phone Number" required>
+        <div class="availability-info" style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #0284c7;">
+          <h4 style="margin: 0 0 10px 0; color: #0284c7;">Availability</h4>
+          <p style="margin: 5px 0; color: #0c4a6e;"><strong>Total Floors:</strong> <span id="totalFloors">-</span></p>
+          <p style="margin: 5px 0; color: #0c4a6e;"><strong>Available Rooms:</strong> <span id="availableRooms">-</span></p>
+          <p style="margin: 5px 0; color: #0c4a6e; font-size: 0.9rem;" id="roomsByTypeInfo"></p>
+        </div>
         <div class="price-summary">
           <h4>Price Summary</h4>
           <p>Price per night: $<span id="pricePerNight">0</span></p>
